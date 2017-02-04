@@ -1,4 +1,5 @@
 FROM node:latest
+LABEL maintainer "siggame@mst.edu"
 
 ADD . matchmaker
 WORKDIR matchmaker

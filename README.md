@@ -1,2 +1,5 @@
 # colisee-matchmaker
-Micro-service responsible for scheduling random games for SIG-Game Colisee
+Micro-service responsible for scheduling random games for SIG-Game Colisee.
+
+
+### Environment Variables
