@@ -49,4 +49,20 @@ describe('Example Unit Tests', function(){
                 chai.expect(cnt).equals(1);
             })
     })
+
+    it('should be able to be polled again', function(){
+        return app.poll()
+            .then(()=>app.scheduledNum())
+            .then((cnt)=>{
+                chai.expect(cnt).equals(2);
+            })
+    })
+
+    it('should be able to be polled one more time', function(){
+        return app.poll()
+            .then(()=>app.scheduledNum())
+            .then((cnt)=>{
+                chai.expect(cnt).equals(3);
+            })
+    })
 });
