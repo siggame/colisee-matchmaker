@@ -7,4 +7,6 @@ WORKDIR matchmaker
 RUN npm run setup
 RUN npm run build
 
+EXPOSE 22
+
 CMD ["npm", "start"]

@@ -1,4 +1,9 @@
 
+# Editors & Environment
+.vagrant/
+.vscode/
+.idea/
+
 # NodeJS & NPM
 node_modules
 npm-debug.log
