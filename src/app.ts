@@ -35,7 +35,6 @@ export class App {
         return new Promise((resolve, reject) => {
             db.query('game').where('status', 'scheduled').count('* AS cnt')
                 .then((rows): number => {
-                    console.log(JSON.stringify(rows));
                     return parseInt(rows[0].cnt)
                 })
                 .then(resolve)
