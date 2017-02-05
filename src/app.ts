@@ -26,7 +26,7 @@ export class App {
         return new Promise((resolve, reject) => {
             db.query('team').orderByRaw(db.query.raw('RANDOM()')).limit(num)
                 .then(rows=>rows.map(row=>row.id))
-                .then(resolve)
+                .then(ids=>resolve(ids))
                 .catch(reject);
         });
     }

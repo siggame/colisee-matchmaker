@@ -16,7 +16,7 @@ export const query = knexModule({
 export function createGame(teams: number[]): Promise<any> {
     return new Promise((resolve, reject)=>{
         query('game').insert({}, '*')
-            .then(result=>result.rows[0])
+            .then(rows=>rows[0])
             .then((game)=>{
                 // Promises to insert team_game
                 const ps = teams.map((team)=>{
@@ -38,7 +38,7 @@ export function createUser(gitlab_id: number): Promise<any> {
         };
 
         query('user').insert(data, '*')
-            .then(result=>result.rows[0])
+            .then(rows=>rows[0])
             .then(resolve)
             .catch(reject);
     });

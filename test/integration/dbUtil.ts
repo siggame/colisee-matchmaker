@@ -7,16 +7,8 @@ describe('Database Utility', function(){
         return db.createUser(1)
             .then(user=>{
                 chai.expect(user).to.exist;
-                chai.expect(user).has('id');
-            });
-    })
-
-    it('should be able to create a user', function(){
-        return db.createUser(1)
-            .then(user=>{
-                chai.expect(user).to.exist;
-                chai.expect(user).has('id');
-            });
+                chai.expect(user).has.property('id');
+            })
     })
 
 });
