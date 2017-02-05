@@ -24,7 +24,6 @@ export class App {
 
     randomTeams(num: number): Promise<number[]> {
         return new Promise((resolve, reject) => {
-            console.log(num);
             db.query('team').orderByRaw(db.query.raw('RANDOM()')).limit(num)
                 .then(rows=>rows.map(row=>row.id))
                 .then(resolve)
@@ -36,6 +35,7 @@ export class App {
         return new Promise((resolve, reject) => {
             db.query('game').where('status', 'scheduled').count('* AS cnt')
                 .then((rows): number => {
+                    console.log(JSON.stringify(rows));
                     return parseInt(rows[0].cnt)
                 })
                 .then(resolve)
