@@ -9,3 +9,4 @@ Micro-service responsible for scheduling random games for SIG-Game Colisee.
 - POSTGRES_USERNAME  
 - POSTGRES_DB  
 - POSTGRES_PORT
+- POSTGRES_DEBUG
