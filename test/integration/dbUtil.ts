@@ -1,6 +1,8 @@
 import * as db from "../../src/dbUtil";
 import * as chai from "chai";
 
+import {} from "mocha";
+
 describe('Database Utility', function(){
 
     it('should be able to create a user', function(){

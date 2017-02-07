@@ -7,7 +7,9 @@
     "start": "node src/main.js",
     "setup": "npm install",
     "build": "tsc",
-    "docs": "apidoc --input src/ --output docs/",
+    "quick-docs": "typedoc --exclude 'node_modules/ test/' --out docs/docs/ts/",
+    "predocs": "npm run build",
+    "docs": "npm run quick-docs",
     "pretest": "npm run build",
     "test": "mocha test/ && mocha test/unit && mocha test/integration"
   },
@@ -38,6 +40,8 @@
     "knex": "^0.12.6",
     "lodash": "^4.17.4",
     "mocha": "^3.2.0",
+    "tsdoc": "0.0.4",
+    "typedoc": "^0.5.5",
     "typescript": "^2.1.5",
     "winston": "^2.3.1"
   },

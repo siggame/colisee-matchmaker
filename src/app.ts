@@ -9,7 +9,7 @@ export class App {
     private intervalId: any;
 
     constructor() {
-        this.pollInterval = _.defaultTo(process.env.POLL_INTERVAL, 1);
+        this.pollInterval = _.defaultTo(process.env.POLL_INTERVAL, 1000);
         this.scheduleMax = _.defaultTo(process.env.SCHEDULE_MAX, 10);
         this.intervalId = undefined;
     }
@@ -22,6 +22,9 @@ export class App {
         clearInterval(this.intervalId);
     }
 
+    /**
+     * Get random teams
+     */
     randomTeams(num: number): Promise<number[]> {
         return new Promise((resolve, reject) => {
             db.query('team').orderByRaw(db.query.raw('RANDOM()')).limit(num)
@@ -31,6 +34,9 @@ export class App {
         });
     }
 
+    /**
+     * 
+     */
     scheduledNum(): Promise<number> {
         return new Promise((resolve, reject) => {
             db.query('game').where('status', 'scheduled').count('* AS cnt')
@@ -41,7 +47,10 @@ export class App {
                 .catch(reject);
         });
     }
-
+    
+    /**
+     * 
+     */
     poll(): Promise<void> {
         return this.scheduledNum()
             .then(()=>this.randomTeams(2))

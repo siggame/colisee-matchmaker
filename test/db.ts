@@ -2,7 +2,9 @@ import * as chai from 'chai';
 const _ = require('lodash');
 import * as db from "../src/dbUtil";
 
-describe('Database Connection', function(){
+import {} from "mocha";
+
+export default describe('Database Connection', function(){
 
     it('should connect to the database', function(done){
         // keep retrying b/c db needs time to come up
