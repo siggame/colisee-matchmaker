@@ -1,11 +1,13 @@
 import * as chai from 'chai';
 import { App } from '../../src/app';
 
-import {} from "mocha";
+export default function() {
 
-describe('Matchmaker App', function(){
+    describe('App', function(){
 
-    it('should be constructable', function(){
-        const app = new App();
+        it('should be constructable', function(){
+            const app = new App();
+        });
     });
-});
+
+}

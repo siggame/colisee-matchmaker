@@ -1,9 +1,14 @@
-import * as db from "../src/dbUtil";
+import * as db from "../src/db";
+import * as chai from "chai";
 
-describe('Main Test', function(){
+import integrationTests from "./integration";
+import unitTests from "./unit";
 
-    describe('Database Connection', function(){
+describe('Main', function(){
 
+    unitTests();    
+
+    describe('Db Connection', function(){
         it('should connect to the database', function(done){
             // keep retrying b/c db needs time to come up
             this.retries(5);
@@ -11,7 +16,8 @@ describe('Main Test', function(){
                 .then(()=>done())
                 .catch(err=>chai.expect(err).to.not.exist)
         });
-
     });
+
+    integrationTests();
 
 });

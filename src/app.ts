@@ -1,6 +1,5 @@
 const _ = require('lodash');
-import * as logger from "./logger";
-import * as db from "./dbUtil";
+import * as db from "./db";
 
 export class App {
     pollInterval: number;
@@ -22,9 +21,6 @@ export class App {
         clearInterval(this.intervalId);
     }
 
-    /**
-     * Get random teams
-     */
     randomTeams(num: number): Promise<number[]> {
         return new Promise((resolve, reject) => {
             db.query('team').orderByRaw(db.query.raw('RANDOM()')).limit(num)
@@ -34,9 +30,6 @@ export class App {
         });
     }
 
-    /**
-     * 
-     */
     scheduledNum(): Promise<number> {
         return new Promise((resolve, reject) => {
             db.query('game').where('status', 'scheduled').count('* AS cnt')
@@ -48,9 +41,6 @@ export class App {
         });
     }
     
-    /**
-     * 
-     */
     poll(): Promise<void> {
         return this.scheduledNum()
             .then(()=>this.randomTeams(2))
