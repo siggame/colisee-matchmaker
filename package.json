@@ -4,14 +4,19 @@
   "description": "Micro-service responsible for scheduling random games for SIG-Game Colisee.",
   "main": "src/main.js",
   "scripts": {
-    "start": "node src/main.js",
+    "quick-start": "node src/main.js",
+    "prestart": "npm run build",
+    "start": "npm run quick-start",
     "setup": "npm install",
     "build": "tsc",
-    "quick-docs": "typedoc --exclude 'node_modules/ test/' --out docs/docs/ts/",
+    "quick-docs": "npm run quick-docs:ts && npm run quick-docs:index",
+    "quick-docs:ts": "typedoc --tsconfig tsdoc.json --out docs/docs/ts/",
+    "quick-docs:index": "marked -i README.md -o docs/index.html",
     "predocs": "npm run build",
     "docs": "npm run quick-docs",
+    "quick-test": "mocha test/",
     "pretest": "npm run build",
-    "test": "mocha test/ && mocha test/unit && mocha test/integration"
+    "test": "npm run quick-test"
   },
   "repository": {
     "type": "git",
