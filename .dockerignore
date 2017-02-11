@@ -9,4 +9,8 @@ node_modules/
 npm-debug.log
 *.js.map
 
+# Git
+.git/
+.gitignore
+
 docs/
