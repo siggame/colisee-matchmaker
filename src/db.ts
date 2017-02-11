@@ -1,26 +1,19 @@
 import * as knexModule from "knex";
-const _ = require('lodash');
+import * as _ from "lodash";
 
-/** @module dbUtil */
+import * as vars from "./vars";
 
-/**
- * query
- */
 export const query = knexModule({
     client: 'pg',
     connection: {
-        host : _.defaultTo(process.env.POSTGRES_HOST, "localhost"),
-        port: _.defaultTo(process.env.POSTGRES_PORT, 5432),
-        user : _.defaultTo(process.env.POSTGRES_USER, "postgres"),
-        password : _.defaultTo(process.env.POSTGRES_PASSWORD, "postgres"),
-        database : _.defaultTo(process.env.POSTGRES_DB, "postgres")
+        host : vars.POSTGRES_HOST,
+        port: vars.POSTGRES_PORT,
+        user : vars.POSTGRES_USER,
+        password : vars.POSTGRES_PASSWORD,
+        database : vars.POSTGRES_DB,
     },
-    debug: _.defaultTo(process.env.POSTGRES_DEBUG, false)
 });
 
-/**
- * createGame
- */
 export function createGame(teams: number[]): Promise<any> {
     return new Promise((resolve, reject)=>{
         query('game').insert({}, '*')
@@ -38,9 +31,7 @@ export function createGame(teams: number[]): Promise<any> {
     });
 }
 
-/**
- * createUser
- */
+
 export function createUser(gitlab_id: number): Promise<any> {
     return new Promise((resolve, reject)=>{
         
@@ -55,20 +46,17 @@ export function createUser(gitlab_id: number): Promise<any> {
     });
 }
 
-/**
- * createTeam
- */
 export function createTeam(gitlab_id: number, members: number[]): Promise<any> {
-    return new Promise((resolve, reject)=>{
+    return new Promise<any>((resolve, reject)=>{
 
         query('team').insert({gitlab_id: gitlab_id}, '*')
             .then(rows=>rows[0])
-            .then((team)=>{
-                const ps = members.map((member)=>{
-                    return query('user_team').insert({user_id: member, team_id: team.id});
-                });
-
-                return Promise.all(ps)
+            .then(team=>{
+                return Promise.all(
+                    members.map(member=>
+                        query('user_team').insert({user_id: member, team_id: team.id})
+                    )
+                );
             })
             .then(_.noop)
             .then(resolve)

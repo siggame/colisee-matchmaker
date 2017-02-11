@@ -1,20 +1,18 @@
-const _ = require('lodash');
+import * as _ from "lodash";
+
+import * as vars from "./vars";
 import * as db from "./db";
 
 export class App {
-    pollInterval: number;
-    scheduleMax: number;
 
     private intervalId: any;
 
     constructor() {
-        this.pollInterval = _.defaultTo(process.env.POLL_INTERVAL, 1000);
-        this.scheduleMax = _.defaultTo(process.env.SCHEDULE_MAX, 10);
         this.intervalId = undefined;
     }
 
     start() {
-        this.intervalId = setInterval(this.poll, this.pollInterval);
+        this.intervalId = setInterval(this.poll, vars.SCHED_INTERVAL);
     }
 
     stop() {
@@ -22,20 +20,19 @@ export class App {
     }
 
     randomTeams(num: number): Promise<number[]> {
-        return new Promise((resolve, reject) => {
+        return new Promise<number[]>((resolve, reject) => {
             db.query('team').orderByRaw(db.query.raw('RANDOM()')).limit(num)
                 .then(rows=>rows.map(row=>row.id))
-                .then(ids=>resolve(ids))
+                .then(resolve)
                 .catch(reject);
         });
     }
 
     scheduledNum(): Promise<number> {
-        return new Promise((resolve, reject) => {
+        return new Promise<number>((resolve, reject) => {
             db.query('game').where('status', 'scheduled').count('* AS cnt')
-                .then((rows): number => {
-                    return parseInt(rows[0].cnt)
-                })
+                .then(rows=>rows[0])
+                .then(row=>parseInt(row.cnt))
                 .then(resolve)
                 .catch(reject);
         });
@@ -44,8 +41,12 @@ export class App {
     poll(): Promise<void> {
         return this.scheduledNum()
             .then(()=>this.randomTeams(2))
+            .then(teams=>{
+                if(teams.length < 2) throw new Error(`Expected 2 teams; got ${teams.length}`);
+                return teams;
+            })
             .then(teams=>db.createGame(teams))
-            .then(()=>_.noop)
+            .then(_.noop)
     }
 }
 

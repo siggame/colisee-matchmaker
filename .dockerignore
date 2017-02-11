@@ -1,2 +1,12 @@
-docs/
+# Editors & Environment
+.vagrant/
+.vscode/
+.idea/
+.env
+
+# NodeJS & NPM
 node_modules/
+npm-debug.log
+*.js.map
+
+docs/
