@@ -6,14 +6,15 @@ services:
 language: nodejs
 
 env:
-  - POSTGRES_PORT=5433
+  - POSTGRES_PORT=5432
+  - POSTGRES_HOST=matchmaker-db
 
 before_script:
-  - npm run setup
+  - docker build --tag colisee-matchmaker .
   - docker run --name matchmaker-db --publish 5433:5432 --detach siggame/colisee-db
 
 script:
-  - npm run test
+  - docker run colisee-matchmaker npm run test
 
 after_script:
   - docker stop matchmaker-db
