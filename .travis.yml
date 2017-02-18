@@ -6,8 +6,7 @@ services:
 language: nodejs
 
 env:
-  - POSTGRES_PORT=5432
-  - POSTGRES_HOST=matchmaker-db
+  - POSTGRES_PORT=5432;POSTGRES_HOST=matchmaker-db
 
 before_script:
   - docker build --tag colisee-matchmaker .
