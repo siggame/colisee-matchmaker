@@ -13,7 +13,7 @@
     "quick-docs:ts": "typedoc --tsconfig tsdoc.json --out docs/ts/",
     "predocs": "npm run build",
     "docs": "npm run quick-docs",
-    "quick-test": "mocha test/",
+    "quick-test": "mocha --colors test/",
     "pretest": "npm run build",
     "test": "npm run quick-test"
   },
