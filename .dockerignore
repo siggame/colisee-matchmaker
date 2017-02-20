@@ -12,5 +12,6 @@ npm-debug.log
 # Git
 .git/
 .gitignore
+.gitattributes
 
 docs/
