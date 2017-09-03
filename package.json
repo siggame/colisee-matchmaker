@@ -4,6 +4,7 @@
   "description": "Micro-service responsible for scheduling random games for SIG-Game Colisee.",
   "main": "src/main.js",
   "scripts": {
+    "clean": "find src test \\( -name *.js -or -name *.js.map \\) -exec rm {} +",
     "quick-start": "node src/main.js",
     "prestart": "npm run build",
     "start": "npm run quick-start",
