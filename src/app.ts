@@ -29,5 +29,3 @@ export class App {
     async poll(): Promise<void> {
     }
 }
-
-
