@@ -6,8 +6,6 @@ A brief description of the project.
 [![Docker Pulls](https://img.shields.io/docker/pulls/colisee-matchmaker/registre.svg?style=flat-square)](https://hub.docker.com/r/siggame/colisee-matchmaker/)
 [![GitHub release](https://img.shields.io/github/release/siggame/colisee-matchmaker.svg?style=flat-square)](https://github.com/siggame/colisee-matchmaker/releases)
 [![Dependencies](https://img.shields.io/david/siggame/colisee-matchmaker.svg)](https://github.com/siggame/colisee-matchmaker)
-[![NPM Version](https://img.shields.io/npm/@siggame/colisee-matchmaker.svg?style=flat-square)](https://www.npmjs.com/package/@siggame/colisee-matchmaker)
-[![NPM Total Downloads](https://img.shields.io/npm/dt/@siggame/colisee-matchmaker.svg?style=flat-square)](https://www.npmjs.com/package/@siggame/colisee-matchmaker)
 
 ## Table Of Contents
 - [Description](#description)

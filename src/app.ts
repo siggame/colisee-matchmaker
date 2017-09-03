@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 
-import * as db from "./common/db";
+import { db } from "@siggame/colisee-lib";
 import * as vars from "./vars";
 
 export class App {
