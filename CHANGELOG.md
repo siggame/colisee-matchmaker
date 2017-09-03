@@ -7,4 +7,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased] - 2017-MM-DD
 
-[Unreleased]: https://github.com/siggame/YOUR_PROJECT_HERE/compare/v0.0.0...HEAD
+[Unreleased]: https://github.com/siggame/colisee-matchmaker/compare/v0.0.0...HEAD
