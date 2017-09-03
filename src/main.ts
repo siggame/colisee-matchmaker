@@ -3,6 +3,6 @@ dotenv.config();
 
 import { App } from "./app";
 
-let app = new App();
+const app = new App();
 
 app.start();

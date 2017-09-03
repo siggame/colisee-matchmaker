@@ -1,10 +1,12 @@
 import * as _ from "lodash";
 
-export const POSTGRES_HOST: string = _.defaultTo(process.env.POSTGRES_HOST, "localhost");
-export const POSTGRES_PORT: number = _.defaultTo(process.env.POSTGRES_PORT, 5432);
-export const POSTGRES_USER: string = _.defaultTo(process.env.POSTGRES_USER, "postgres");
-export const POSTGRES_PASSWORD: string = _.defaultTo(process.env.POSTGRES_PASSWORD, "postgres");
-export const POSTGRES_DB: string =  _.defaultTo(process.env.POSTGRES_DB, "postgres");
+// Application
+export const SCHED_INTERVAL: number = _.defaultTo<number>(parseIntIfDefined(process.env.INTERVAL), 1000);
+export const SCHED_MAX: number = _.defaultTo<number>(parseIntIfDefined(process.env.MAX), 5);
 
-export const SCHED_INTERVAL: number = _.defaultTo(process.env.INTERVAL, 1000);
-export const SCHED_MAX: number = _.defaultTo(process.env.MAX, 5);
+function parseIntIfDefined(value: string | null | undefined): number | null | undefined {
+    if(value == null) return value; //Is null or undefined
+    const intVal = parseInt(value, 10);
+    if(Number.isNaN(intVal)) return undefined;
+    return intVal;
+}

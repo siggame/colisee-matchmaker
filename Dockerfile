@@ -1,12 +1,12 @@
 FROM node:latest
-LABEL maintainer "siggame@mst.edu"
+LABEL maintainer="siggame@mst.edu"
 
-ADD . matchmaker
-WORKDIR matchmaker
+ADD . app
+WORKDIR app
 
 RUN npm run setup
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start-prod"]
