@@ -1,31 +1,8 @@
-import * as _ from "lodash";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-import { db } from "@siggame/colisee-lib";
-import * as vars from "./vars";
+import { Matchmaker } from "./matchmaker";
 
-export class App {
+const mm = new Matchmaker();
 
-    private intervalId: any;
-
-    constructor() {
-        this.intervalId = undefined;
-    }
-
-    start() {
-        this.intervalId = setInterval(this.poll, vars.SCHED_INTERVAL);
-    }
-
-    stop() {
-        clearInterval(this.intervalId);
-    }
-
-    async randomTeams(num: number): Promise<any> {
-    }
-
-    async scheduledNum(): Promise<number> {
-        return 4;
-    }
-    
-    async poll(): Promise<void> {
-    }
-}
+mm.start();
