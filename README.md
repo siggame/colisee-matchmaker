@@ -33,6 +33,7 @@ Information about how to use the service or library.
 - [user404d](https://github.com/user404d)
 - [Hannah Reinbolt](https://github.com/LoneGalaxy)
 - [Matthew Qualls](https://github.com/MatthewQualls)
+- [Dylan Warren](https://github.com/Uhuh)
 
 ## Change Log
 
