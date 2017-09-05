@@ -41,7 +41,7 @@
     "typescript": "^2.5.2"
   },
   "dependencies": {
-    "@siggame/colisee-lib": "^0.1.3",
+    "@siggame/colisee-lib": "^0.2.4",
     "body-parser": "^1.16.0",
     "cors": "^2.8.1",
     "express": "^4.14.1",
