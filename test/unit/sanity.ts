@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { App } from '../../src/app';
 
-describe('Sanity', function(){
+describe('Sanity', function () {
     it('shall be sane', () => {
         expect(true).to.be.true;
         expect(false).to.be.false;
