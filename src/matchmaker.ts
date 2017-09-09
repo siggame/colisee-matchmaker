@@ -2,7 +2,7 @@ import { db } from "@siggame/colisee-lib";
 import * as _ from "lodash";
 import * as winston from "winston";
 
-import { permute } from "./helpers";
+import { generateDerangedPairs, permute } from "./helpers";
 import * as vars from "./vars";
 
 export class Matchmaker {
@@ -33,13 +33,17 @@ export class Matchmaker {
     }
 
     async poll(): Promise<void> {
-        let teams: db.Team[] = [];
+        let pairs: Array<[db.Team, db.Team]> = [];
         try {
-            teams = await this.getTeamsRandomOrder();
+            const teams = await this.getTeamsRandomOrder();
+            pairs = generateDerangedPairs(teams);
         } catch (e) {
             winston.error(e);
         }
 
-        teams.forEach(({ id, name }) => winston.info(`Team: ${id}, ${name}`));
+        pairs.forEach((teams) => {
+            winston.info("Team Matchup:");
+            teams.forEach(({ id, name }) => winston.info(`Team: ${id} ${name}`));
+        });
     }
 }
