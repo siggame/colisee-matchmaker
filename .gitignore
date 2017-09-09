@@ -4,7 +4,8 @@
 .vscode/
 .idea/
 .env
-ubuntu-*-cloudimg-console.log
+
+*.log
 
 # NodeJS & NPM
 node_modules
