@@ -10,11 +10,20 @@ interface IRecentSub {
     id: number;
     teamId: number;
 }
-export class Matchmaker {
+
+interface IMatchmakerOptions {
+    interval: number;
+    matchReplications: number;
+    maxMatches: number;
+}
+export class Matchmaker implements IMatchmakerOptions {
 
     private intervalId?: NodeJS.Timer;
 
-    constructor() {
+    constructor(
+        public interval: number = vars.SCHED_INTERVAL,
+        public matchReplications: number = vars.REPLICATIONS,
+        public maxMatches: number = vars.SCHED_MAX) {
         this.intervalId = undefined;
     }
 
@@ -68,12 +77,14 @@ export class Matchmaker {
             pairs.forEach(([first, second]) => winston.info(`Matchup: (${first.teamId}, ${second.teamId})`));
 
             for (const [{ id: firstId }, { id: secondId }] of pairs) {
-                const [{ id }] = await db.connection("games")
-                    .insert({ status: "queued" }, "*")
-                    .then(db.rowsToGames);
-                await db.connection("games_submissions")
-                    .insert([{ game_id: id, submission_id: firstId }, { game_id: id, submission_id: secondId }])
-                    .then();
+                for (let i = 0; i < vars.REPLICATIONS; i++) {
+                    const [{ id }] = await db.connection("games")
+                        .insert({ status: "queued" }, "*")
+                        .then(db.rowsToGames);
+                    await db.connection("games_submissions")
+                        .insert([{ game_id: id, submission_id: firstId }, { game_id: id, submission_id: secondId }])
+                        .then();
+                }
             }
         }
     }
