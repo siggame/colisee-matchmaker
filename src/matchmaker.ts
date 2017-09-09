@@ -2,6 +2,7 @@ import { db } from "@siggame/colisee-lib";
 import * as _ from "lodash";
 import * as winston from "winston";
 
+import { permute } from "./helpers";
 import * as vars from "./vars";
 
 export class Matchmaker {
@@ -22,8 +23,8 @@ export class Matchmaker {
 
     async getTeamsRandomOrder(): Promise<db.Team[]> {
         return db.connection("teams").select("*")
+            .then(permute)
             .then(db.rowsToTeams)
-            .then((teams) => teams) // add permutation
             .catch((e: Error) => { throw e; });
     }
 
