@@ -20,9 +20,10 @@ export class Matchmaker {
         clearInterval(this.intervalId);
     }
 
-    async randomTeams(num: number): Promise<db.Team[]> {
+    async getTeamsRandomOrder(): Promise<db.Team[]> {
         return db.connection("teams").select("*")
             .then(db.rowsToTeams)
+            .then((teams) => teams) // add permutation
             .catch((e: Error) => { throw e; });
     }
 
@@ -33,7 +34,7 @@ export class Matchmaker {
     async poll(): Promise<void> {
         let teams: db.Team[] = [];
         try {
-            teams = await this.randomTeams(0);
+            teams = await this.getTeamsRandomOrder();
         } catch (e) {
             winston.error(e);
         }
