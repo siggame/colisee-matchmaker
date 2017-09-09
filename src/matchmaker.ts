@@ -12,20 +12,28 @@ export class Matchmaker {
     }
 
     start() {
-        this.intervalId = setInterval(this.poll, vars.SCHED_INTERVAL);
+        this.intervalId = setInterval(() => { this.poll(); }, vars.SCHED_INTERVAL);
     }
 
     stop() {
         clearInterval(this.intervalId);
     }
 
-    async randomTeams(num: number): Promise<any> {
+    async randomTeams(num: number): Promise<db.Team[]> {
+        return db.connection("teams").select("*").then(db.rowsToTeams).catch((e) => { throw e; });
     }
 
     async scheduledNum(): Promise<number> {
         return 4;
     }
-    
+
     async poll(): Promise<void> {
+        let teams: db.Team[] = [];
+        try {
+            teams = await this.randomTeams(0);
+        } catch (e) {
+            console.log(e);
+        }
+        console.log(teams);
     }
 }
