@@ -1,6 +1,7 @@
-import * as _ from "lodash";
-
 import { db } from "@siggame/colisee-lib";
+import * as _ from "lodash";
+import * as winston from "winston";
+
 import * as vars from "./vars";
 
 export class Matchmaker {
@@ -20,7 +21,9 @@ export class Matchmaker {
     }
 
     async randomTeams(num: number): Promise<db.Team[]> {
-        return db.connection("teams").select("*").then(db.rowsToTeams).catch((e) => { throw e; });
+        return db.connection("teams").select("*")
+            .then(db.rowsToTeams)
+            .catch((e: Error) => { throw e; });
     }
 
     async scheduledNum(): Promise<number> {
@@ -32,8 +35,9 @@ export class Matchmaker {
         try {
             teams = await this.randomTeams(0);
         } catch (e) {
-            console.log(e);
+            winston.error(e);
         }
-        console.log(teams);
+
+        teams.forEach(({ id, name }) => winston.info(`Team: ${id}, ${name}`));
     }
 }
