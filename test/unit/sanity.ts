@@ -7,7 +7,7 @@ describe("Sanity", function () {
         expect(true).to.be.true;
         expect(false).to.be.false;
     });
-    it("shall be sane", () => {
+    it("shall not be insane", () => {
         expect(true).to.not.be.false;
         expect(false).to.be.false;
     });
