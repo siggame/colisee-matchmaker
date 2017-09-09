@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import * as db from "../../src/common/db";
-import { App } from "../../src/app";
+import { db } from "@siggame/colisee-lib";
+import * as app from "../../src/app";
 
-describe('App', function() {
+describe("App", function () {
 });
