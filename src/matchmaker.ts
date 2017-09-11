@@ -3,7 +3,7 @@ import * as knex from "knex";
 import * as _ from "lodash";
 import * as winston from "winston";
 
-import { generateDerangedPairs, permute } from "./helpers";
+import { createPairs, permute } from "./helpers";
 import * as vars from "./vars";
 
 interface IRecentSub {
@@ -43,26 +43,26 @@ export class Matchmaker implements IMatchmakerOptions {
     }
 
     async getPairedTeams() {
-        return db.connection.from(function (this: knex.QueryBuilder) {
-            this.from("submissions as subs")
+        const recentSubmissions = await db.connection.from((query: knex.QueryBuilder) => {
+            query.from("submissions as subs")
                 .select("subs.id as subId", "subs.team_id as teamId", db.connection.raw("max(subs.version) as recent_version"))
                 .where({ status: "finished" })
                 .groupBy("subId")
                 .as("recent_subs");
         }).join("submissions", function () {
             this.on("recent_subs.teamId", "submissions.team_id").andOn("recent_subs.recent_version", "submissions.version");
-        })
-            .select("submissions.id as id", "recent_subs.teamId")
-            .then(permute)
-            .then(generateDerangedPairs)
-            .then((pairs): [IRecentSub, IRecentSub][] => pairs)
+        }).select("submissions.id as id", "recent_subs.teamId")
             .catch((e: Error) => { throw e; });
+        const randomMatchups = createPairs<IRecentSub>(permute(recentSubmissions));
+        return randomMatchups;
     }
 
     async scheduledNum(): Promise<number> {
-        return db.connection("games").where({ status: "queued" }).count("*")
-            .then(([{ count }]): number => count)
+        const [{ count }] = await db.connection("games")
+            .where({ status: "queued" })
+            .count("*")
             .catch((e: Error) => { throw e; });
+        return count;
     }
 
     async poll(): Promise<void> {
@@ -82,8 +82,7 @@ export class Matchmaker implements IMatchmakerOptions {
                         .insert({ status: "queued" }, "*")
                         .then(db.rowsToGames);
                     await db.connection("games_submissions")
-                        .insert([{ game_id: id, submission_id: firstId }, { game_id: id, submission_id: secondId }])
-                        .then();
+                        .insert([{ game_id: id, submission_id: firstId }, { game_id: id, submission_id: secondId }]);
                 }
             }
         }
