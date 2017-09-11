@@ -4,9 +4,15 @@
 .vscode/
 .idea/
 .env
-ubuntu-*-cloudimg-console.log
+
+*.log
 
 # NodeJS & NPM
 node_modules
 npm-debug.log
-*.js.map
+
+src/**/*.js
+src/*.js
+
+test/**/*.js
+test/*.js
