@@ -6,8 +6,10 @@
 
 # NodeJS & NPM
 node_modules/
-npm-debug.log
+
+*.log
 *.js.map
+*.js
 
 # Git
 .git/
