@@ -1,6 +1,6 @@
 # siggame/colisee-matchmaker
 
-A brief description of the project.
+Service to schedule matchups between teams using different types of scheduling.
 
 [![Travis](https://img.shields.io/travis/siggame/colisee-matchmaker.svg?style=flat-square)](https://travis-ci.org/siggame/colisee-matchmaker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/colisee-matchmaker/registre.svg?style=flat-square)](https://hub.docker.com/r/siggame/colisee-matchmaker/)
@@ -8,6 +8,7 @@ A brief description of the project.
 [![Dependencies](https://img.shields.io/david/siggame/colisee-matchmaker.svg)](https://github.com/siggame/colisee-matchmaker)
 
 ## Table Of Contents
+
 - [Description](#description)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
@@ -22,13 +23,34 @@ A long description of the project.
 
 ## Getting Started
 
-How to get/install the service or library.
+Using docker.
+
+```bash
+docker pull siggame/colisee-matchmaker
+```
+
+Using npm.
+
+```bash
+npm run setup
+```
 
 ## Usage
 
-Information about how to use the service or library.
+Using docker.
+
+```bash
+docker run --init --rm -p 8080:8080 siggame/colisee-matchmaker
+```
+
+Using npm.
+
+```bash
+npm run start:prod
+```
 
 ## Contributors
+
 - [Russley Shaw](https://github.com/russleyshaw)
 - [user404d](https://github.com/user404d)
 - [Hannah Reinbolt](https://github.com/LoneGalaxy)

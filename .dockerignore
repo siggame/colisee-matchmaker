@@ -3,17 +3,25 @@
 .vscode/
 .idea/
 .env
+tslint.json
 
 # NodeJS & NPM
 node_modules/
+*.js
+
+.travis.yml
+
+.dockerignore
+Dockerfile
 
 *.log
-*.js.map
-*.js
 
 # Git
 .git/
 .gitignore
 .gitattributes
 
+CHANGELOG.md
+README.md
 docs/
+release/

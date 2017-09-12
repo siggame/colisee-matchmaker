@@ -9,6 +9,7 @@
 
 # NodeJS & NPM
 node_modules/
-
-release/
 *.js
+
+docs/
+release/
