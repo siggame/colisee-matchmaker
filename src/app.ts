@@ -28,34 +28,42 @@ const errorLogger: express.ErrorRequestHandler = (error: HttpError, req, res, ne
 
 app.use(errorLogger);
 
-app.get("/start", bodyParser.json(), (req, res) => {
+app.get("/start", bodyParser.json(), (req, res, next) => {
     try {
-        winston.info(req.body);
         mm.start();
-        res.end();
     } catch (e) {
         winston.error(e);
-        throw new InternalServerError("Failed to start the matchmaker.");
+        next(new InternalServerError("Failed to start the matchmaker."));
+        return;
     }
+    res.end();
 });
 
-app.get("/stop", bodyParser.json(), (req, res) => {
+app.get("/stop", bodyParser.json(), (req, res, next) => {
     try {
         mm.stop();
-        res.end();
     } catch (e) {
         winston.error(e);
-        throw new InternalServerError("Failed to stop the matchmaker.");
+        next(new InternalServerError("Failed to stop the matchmaker."));
+        return;
     }
+    res.end();
 });
 
-app.get("/queued", async (req, res) => {
-    res.json(await db.connection("games").where({ status: "queued" }).then(db.rowsToGames));
+app.get("/queued", async (req, res, next) => {
+    const queuedGames = await db.connection("games")
+        .where({ status: "queued" })
+        .then(db.rowsToGames)
+        .catch(next);
+
+    res.json(queuedGames);
 });
 
-function listener() {
-    mm.start();
-    winston.info(`Listening on port ${PORT}...`);
-}
+export default () => {
+    app.listen(PORT, () => {
+        mm.start();
+        winston.info(`Listening on port ${PORT}...`);
+    });
+};
 
-export { app, listener };
+export { app };

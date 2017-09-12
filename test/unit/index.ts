@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import sanity from "./sanity";
 
 export default () => {

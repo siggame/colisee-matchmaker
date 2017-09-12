@@ -1,4 +1,9 @@
-import { app, listener } from "./app";
-import { PORT } from "./vars";
+import { app, default as matchmaker } from "./app";
 
-app.listen(PORT, listener);
+// equivalent of python's __name__ == "__main__"
+
+if (!module.parent) {
+    matchmaker();
+}
+
+export { app };

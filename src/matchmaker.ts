@@ -23,7 +23,8 @@ export class Matchmaker implements IMatchmakerOptions {
     constructor(
         public interval: number = vars.SCHED_INTERVAL,
         public matchReplications: number = vars.REPLICATIONS,
-        public maxMatches: number = vars.SCHED_MAX) {
+        public maxMatches: number = vars.SCHED_MAX,
+    ) {
         this.intervalId = undefined;
     }
 
@@ -42,7 +43,7 @@ export class Matchmaker implements IMatchmakerOptions {
         }
     }
 
-    async getPairedTeams() {
+    private async getPairedTeams() {
         const recentSubmissions = await db.connection.from((query: knex.QueryBuilder) => {
             query.from("submissions as subs")
                 .select("subs.id as subId", "subs.team_id as teamId", db.connection.raw("max(subs.version) as recent_version"))
@@ -57,7 +58,7 @@ export class Matchmaker implements IMatchmakerOptions {
         return randomMatchups;
     }
 
-    async scheduledNum(): Promise<number> {
+    private async scheduledNum(): Promise<number> {
         const [{ count }] = await db.connection("games")
             .where({ status: "queued" })
             .count("*")
@@ -65,7 +66,7 @@ export class Matchmaker implements IMatchmakerOptions {
         return count;
     }
 
-    async poll(): Promise<void> {
+    private async poll(): Promise<void> {
         if (await this.scheduledNum() < vars.SCHED_MAX) {
             let pairs: Array<[IRecentSub, IRecentSub]> = [];
             try {

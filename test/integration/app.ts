@@ -1,7 +1,6 @@
 import { expect } from "chai";
 
-import { db } from "@siggame/colisee-lib";
-import { app } from "../../src/app";
+import { app } from "../../src";
 
 export default () => {
 

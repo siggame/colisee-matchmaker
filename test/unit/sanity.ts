@@ -1,7 +1,5 @@
 import { expect } from "chai";
 
-import * as app from "../../src/app";
-
 export default () => {
 
     describe("Sanity", function () {
