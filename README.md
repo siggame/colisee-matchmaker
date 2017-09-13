@@ -37,7 +37,7 @@ npm run setup
 
 ## Usage
 
-Create `.env` file. (See [.env options](#.env-options))
+Create `.env` file. (See [.env options](#environment-options))
 
 ```bash
 echo "PORT=8080" > .env
@@ -46,7 +46,7 @@ echo "PORT=8080" > .env
 Using docker.
 
 ```bash
-docker run --init --rm -p 8080:8080 siggame/colisee-matchmaker
+docker run --init --rm --env-file .env -p 8080:8080 siggame/colisee-matchmaker
 ```
 
 Using npm.
@@ -55,11 +55,11 @@ Using npm.
 npm run start:prod
 ```
 
-### .env Options
+### Environment Options
 
-- `INTERVAL`: the interval at which to generate new matchups.
+- `INTERVAL`: the interval at which new matchups will be generated.
 - `MAX`: maximum number of queued games.
-- `PORT`: the port for the matchamker to listen on.
+- `PORT`: the port for the matchmaker to listen on.
 - `REPLICATIONS`: number of times to replicate a matchup.
 
 ## Contributors
