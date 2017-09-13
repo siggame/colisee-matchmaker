@@ -1,10 +1,8 @@
-sudo: required
-
-services:
-  - docker
+language: node_js
+node_js:
+    - node
 
 before_script:
-  - docker build --tag matchmaker .
-
+    - npm install
 script:
-  - docker run matchmaker npm run test
+    - npm test

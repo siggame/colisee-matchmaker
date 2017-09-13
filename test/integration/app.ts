@@ -1,7 +1,14 @@
 import { expect } from "chai";
 
-import { db } from "@siggame/colisee-lib";
-import * as app from "../../src/app";
+import { app } from "../../src";
 
-describe("App", function () {
-});
+export default () => {
+
+    describe("App", function () {
+        it("should not be null", (done) => {
+            expect(app).to.not.be.null;
+            done();
+        });
+    });
+
+};

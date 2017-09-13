@@ -1,44 +1,91 @@
 import { db } from "@siggame/colisee-lib";
+import * as knex from "knex";
 import * as _ from "lodash";
 import * as winston from "winston";
 
+import { createPairs, permute } from "./helpers";
 import * as vars from "./vars";
 
-export class Matchmaker {
+interface IRecentSub {
+    id: number;
+    teamId: number;
+}
 
-    private intervalId: any;
+interface IMatchmakerOptions {
+    interval: number;
+    matchReplications: number;
+    maxMatches: number;
+}
+export class Matchmaker implements IMatchmakerOptions {
 
-    constructor() {
+    private intervalId?: NodeJS.Timer;
+
+    constructor(
+        public interval: number = vars.SCHED_INTERVAL,
+        public matchReplications: number = vars.REPLICATIONS,
+        public maxMatches: number = vars.SCHED_MAX,
+    ) {
         this.intervalId = undefined;
     }
 
     start() {
-        this.intervalId = setInterval(() => { this.poll(); }, vars.SCHED_INTERVAL);
+        if (_.isNil(this.intervalId)) {
+            this.intervalId = setInterval(() => {
+                this.poll().catch((e) => { winston.error(e); });
+            }, vars.SCHED_INTERVAL);
+        }
     }
 
     stop() {
-        clearInterval(this.intervalId);
-    }
-
-    async getTeamsRandomOrder(): Promise<db.Team[]> {
-        return db.connection("teams").select("*")
-            .then(db.rowsToTeams)
-            .then((teams) => teams) // add permutation
-            .catch((e: Error) => { throw e; });
-    }
-
-    async scheduledNum(): Promise<number> {
-        return 4;
-    }
-
-    async poll(): Promise<void> {
-        let teams: db.Team[] = [];
-        try {
-            teams = await this.getTeamsRandomOrder();
-        } catch (e) {
-            winston.error(e);
+        if (!_.isNil(this.intervalId)) {
+            clearInterval(this.intervalId);
+            this.intervalId = undefined;
         }
+    }
 
-        teams.forEach(({ id, name }) => winston.info(`Team: ${id}, ${name}`));
+    private async getPairedTeams() {
+        const recentSubmissions = await db.connection.from((query: knex.QueryBuilder) => {
+            query.from("submissions as subs")
+                .select("subs.id as subId", "subs.team_id as teamId", db.connection.raw("max(subs.version) as recent_version"))
+                .where({ status: "finished" })
+                .groupBy("subId")
+                .as("recent_subs");
+        }).join("submissions", function () {
+            this.on("recent_subs.teamId", "submissions.team_id").andOn("recent_subs.recent_version", "submissions.version");
+        }).select("submissions.id as id", "recent_subs.teamId")
+            .catch((e: Error) => { throw e; });
+        const randomMatchups = createPairs<IRecentSub>(permute(recentSubmissions));
+        return randomMatchups;
+    }
+
+    private async scheduledNum(): Promise<number> {
+        const [{ count }] = await db.connection("games")
+            .where({ status: "queued" })
+            .count("*")
+            .catch((e: Error) => { throw e; });
+        return count;
+    }
+
+    private async poll(): Promise<void> {
+        if (await this.scheduledNum() < vars.SCHED_MAX) {
+            let pairs: Array<[IRecentSub, IRecentSub]> = [];
+            try {
+                pairs = await this.getPairedTeams();
+            } catch (e) {
+                winston.error(e);
+            }
+
+            pairs.forEach(([first, second]) => winston.info(`Matchup: (${first.teamId}, ${second.teamId})`));
+
+            for (const [{ id: firstId }, { id: secondId }] of pairs) {
+                for (let i = 0; i < vars.REPLICATIONS; i++) {
+                    const [{ id }] = await db.connection("games")
+                        .insert({ status: "queued" }, "*")
+                        .then(db.rowsToGames);
+                    await db.connection("games_submissions")
+                        .insert([{ game_id: id, submission_id: firstId }, { game_id: id, submission_id: secondId }]);
+                }
+            }
+        }
     }
 }
