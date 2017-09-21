@@ -3,8 +3,6 @@
  * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
  * 
  * @export
- * @param {any[]} list 
- * @returns {any[]}
  */
 export function permute(list: any[]) {
     const permutation = Array.from(list);
@@ -28,9 +26,6 @@ export function permute(list: any[]) {
  * item.
  * 
  * @export
- * @template T 
- * @param {T[]} list 
- * @returns {[T, T][]} 
  */
 export function createPairs<T>(list: T[]): [T, T][] {
     // make pair for each element from the original list and
