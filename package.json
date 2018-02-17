@@ -50,7 +50,7 @@
     "typescript": "^2.5.2"
   },
   "dependencies": {
-    "@siggame/colisee-lib": "^0.2.5",
+    "@siggame/colisee-lib": "^0.3.1",
     "body-parser": "^1.18.0",
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
