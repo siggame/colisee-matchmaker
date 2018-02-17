@@ -75,14 +75,14 @@ export class Matchmaker implements IMatchmakerOptions {
      */
     private async getPairedTeams(): Promise<[IRecentSub, IRecentSub][]> {
         const recentSubmissions = await db.connection.from((query: knex.QueryBuilder) => {
-            query.from("submissions as subs")
-                .select("subs.id as subId", "subs.team_id as teamId", db.connection.raw("max(subs.version) as recent_version"))
+            return query.from("submissions")
+                .select("team_id as teamId", db.connection.raw("max(version) as recent_version"))
                 .where({ status: "finished" })
-                .groupBy("subId")
+                .groupBy("teamId")
                 .as("recent_subs");
-        }).join("submissions", function () {
-            this.on("recent_subs.teamId", "submissions.team_id").andOn("recent_subs.recent_version", "submissions.version");
-        }).select("submissions.id as id", "recent_subs.teamId")
+        }).join("submissions as subs", function () {
+            this.on({ "subs.team_id": "recent_subs.teamId" }).andOn({ "subs.version": "recent_subs.recent_version" });
+        }).select("subs.id as id", "teamId")
             .catch((e: Error) => { throw e; });
         const randomMatchups = createPairs<IRecentSub>(permute(recentSubmissions));
         return randomMatchups;
