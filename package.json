@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node src",
     "start:prod": "NODE_ENV=production node release",
-    "start:dev": "npm run build && node --inspect src",
+    "start:dev": "npm run build && node --inspect --trace-warnings src",
     "clean:src": "rimraf src/**/*.js src/*.js",
     "clean:test": "rimraf test/**/*.js test/*.js",
-    "clean:misc": "rimraf release/ node_modules/",
+    "clean:misc": "rimraf docs/ release/ node_modules/",
     "clean": "npm run clean:src && npm run clean:test && npm run clean:misc",
     "setup": "npm install",
     "postsetup": "npm run build:dist",
