@@ -4,14 +4,12 @@ dotenv.config();
 import { db } from "@siggame/colisee-lib";
 import * as bodyParser from "body-parser";
 import * as express from "express";
+import { ErrorRequestHandler, RequestHandler } from "express";
 import { HttpError, InternalServerError } from "http-errors";
 import * as winston from "winston";
 
 import { Matchmaker } from "./matchmaker";
 import { PORT } from "./vars";
-
-const app = express();
-const mm = new Matchmaker();
 
 winston.configure({
     transports: [
@@ -21,11 +19,21 @@ winston.configure({
     ],
 });
 
-const errorLogger: express.ErrorRequestHandler = (error: HttpError, req, res, next) => {
+// Logger Middleware
+const logger: RequestHandler = (req, res, next) => {
+    winston.info(`${req.method}\t${req.url}`);
+    next();
+};
+
+const errorLogger: ErrorRequestHandler = (error: HttpError, req, res, next) => {
     winston.error(error.message);
     res.status(error.statusCode).end(error.name);
 };
 
+const app = express();
+const mm = new Matchmaker();
+
+app.use(logger);
 app.use(errorLogger);
 
 app.get("/start", bodyParser.json(), (req, res, next) => {
