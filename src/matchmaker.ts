@@ -1,6 +1,6 @@
 import { db } from "@siggame/colisee-lib";
-import * as knex from "knex";
-import * as _ from "lodash";
+import { QueryBuilder } from "knex";
+import { isNil } from "lodash";
 import * as winston from "winston";
 
 import { createPairs, permute } from "./helpers";
@@ -47,7 +47,7 @@ export class Matchmaker implements IMatchmakerOptions {
      * @memberof Matchmaker
      */
     start() {
-        if (_.isNil(this.intervalId)) {
+        if (isNil(this.intervalId)) {
             this.intervalId = setInterval(() => {
                 this.createMatchups().catch((e) => { winston.error(e); });
             }, this.interval);
@@ -60,7 +60,7 @@ export class Matchmaker implements IMatchmakerOptions {
      * @memberof Matchmaker
      */
     stop() {
-        if (!_.isNil(this.intervalId)) {
+        if (!isNil(this.intervalId)) {
             clearInterval(this.intervalId);
             this.intervalId = undefined;
         }
@@ -74,7 +74,7 @@ export class Matchmaker implements IMatchmakerOptions {
      * @memberof Matchmaker
      */
     private async getPairedTeams(): Promise<[IRecentSub, IRecentSub][]> {
-        const recentSubmissions = await db.connection.from((query: knex.QueryBuilder) => {
+        const recentSubmissions = await db.connection.from((query: QueryBuilder) => {
             return query.from("submissions")
                 .select("team_id as teamId", db.connection.raw("max(version) as recent_version"))
                 .where({ status: "finished" })
