@@ -19,7 +19,7 @@ Service to schedule matchups between teams using different types of scheduling.
 
 ## Description
 
-A long description of the project.
+Microservice for scheduling matches automatically. Currently only random, head-to-head matchups are scheduled.
 
 ## Getting Started
 
@@ -76,7 +76,7 @@ View our [CHANGELOG.md](https://github.com/siggame/colisee-matchmaker/blob/maste
 
 ## License
 
-View our [LICENSE.md](https://github.com/siggame/colisee/blob/master/LICENSE.md)
+View our [LICENSE](https://github.com/siggame/colisee/blob/master/LICENSE)
 
 ## Contributing
 
