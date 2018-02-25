@@ -8,7 +8,7 @@
 [<release_header>]: # (## [{version}] - {year}-{month}-{day})
 [<release_description>]: # (*)
 [<release_ref>]: # ([{version}]: {compare})
-[<current>]: # (v0.0.0)
+[<current>]: # (v1.1.1)
 [//]: # (<end>)
 
 All notable changes to colisee-matchmaker will be documented in this file.
@@ -17,7 +17,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 [//]: # (<pre_release>)
+## [Unreleased]
+
+ 
+
+[Unreleased]: https://github.com/siggame/colisee-matchmaker/compare/v1.1.1...HEAD
 [//]: # (<end>)
 
 [//]: # (<release>)
+## [v1.1.1] - 2018-2-25
+
+* Update service version for Colisee use in CS5400 for Chess
+
+[v1.1.1]: https://github.com/siggame/colisee-matchmaker/compare/v0.0.0...v1.1.1
 [//]: # (<end>)
