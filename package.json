@@ -31,8 +31,7 @@
   },
   "homepage": "https://github.com/siggame/colisee-matchmaker#readme",
   "devDependencies": {
-    "@siggame/colisee-tslint": "^1.0.3",
-    "@types/body-parser": "^1.16.8",
+    "@siggame/colisee-tslint": "^1.0.4",
     "@types/chai": "^4.1.2",
     "@types/cors": "^2.8.3",
     "@types/dotenv": "^4.0.2",
@@ -51,7 +50,6 @@
   },
   "dependencies": {
     "@siggame/colisee-lib": "^0.3.1",
-    "body-parser": "^1.18.0",
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",

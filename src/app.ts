@@ -2,7 +2,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { db } from "@siggame/colisee-lib";
-import * as bodyParser from "body-parser";
 import * as express from "express";
 import { ErrorRequestHandler, RequestHandler } from "express";
 import { HttpError, InternalServerError } from "http-errors";
@@ -36,7 +35,7 @@ const mm = new Matchmaker();
 app.use(logger);
 app.use(errorLogger);
 
-app.get("/start", bodyParser.json(), (req, res, next) => {
+app.get("/start", (req, res, next) => {
     try {
         mm.start();
     } catch (e) {
@@ -47,7 +46,7 @@ app.get("/start", bodyParser.json(), (req, res, next) => {
     res.end();
 });
 
-app.get("/stop", bodyParser.json(), (req, res, next) => {
+app.get("/stop", (req, res, next) => {
     try {
         mm.stop();
     } catch (e) {
