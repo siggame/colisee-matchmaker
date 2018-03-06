@@ -4,8 +4,9 @@ Service to schedule matchups between teams using different types of scheduling.
 
 [![Travis](https://img.shields.io/travis/siggame/colisee-matchmaker.svg?style=flat-square)](https://travis-ci.org/siggame/colisee-matchmaker)
 [![Docker Pulls](https://img.shields.io/docker/pulls/siggame/colisee-matchmaker.svg?style=flat-square)](https://hub.docker.com/r/siggame/colisee-matchmaker)
-[![GitHub release](https://img.shields.io/github/release/siggame/colisee-matchmaker.svg?style=flat-square)](https://github.com/siggame/colisee-matchmaker/releases)
-[![Dependencies](https://img.shields.io/david/siggame/colisee-matchmaker.svg)](https://github.com/siggame/colisee-matchmaker)
+[![GitHub tag](https://img.shields.io/github/tag/siggame/colisee-matchmaker.svg?style=flat-square)](https://github.com/siggame/colisee-matchmaker/tags)
+[![dependencies Status](https://david-dm.org/siggame/colisee-matchmaker/status.svg)](https://david-dm.org/siggame/colisee-matchmaker)
+[![devDependencies Status](https://david-dm.org/siggame/colisee-matchmaker/dev-status.svg)](https://david-dm.org/siggame/colisee-matchmaker?type=dev)
 
 ## Table Of Contents
 
